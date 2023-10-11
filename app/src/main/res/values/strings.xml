@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Library App</string>
+    <string name="library_app"><b>Library</b> App</string>
+    <string name="library_app_login">Quản lý thư viện</string>
+    <string name="login"><b>Đăng nhập</b></string>
+    <string name="logout">Đăng xuất</string>
+    <string name="register"><b>Đăng ký</b></string>
+    <string name="ho_ten">HỌ VÀ TÊN</string>
+    <string name="your_name">Your name</string>
+    <string name="email">EMAIL</string>
+    <string name="your_mail">yourmail@gmail.com</string>
+    <string name="pass">MẬT KHẨU</string>
+    <string name="hint_pass">********</string>
+    <string name="quen_pass">Quên mật khẩu?</string>
+    <string name="no_account"><font color="#999999">Chưa có tài khoản?</font> <b><font color="#4356B4">Đăng ký ngay</font></b></string>
+    <string name="yes_account"><font color="#999999">Đã có tài khoản?</font> <b><font color="#4356B4">Đăng nhập ngay</font></b></string>
+    <string name="policy_rules"><font color="#999999">Tôi đồng ý với các </font><b><font color="#4356B4">chính sách</font></b><font color="#999999"> và </font><b><font color="#4356B4">điều khoản</font></b></string>
+
 </resources>
