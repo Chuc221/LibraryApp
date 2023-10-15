@@ -7,15 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.libraryapp.R
 import com.example.libraryapp.databinding.FragmentRegisterBinding
+import com.example.libraryapp.util.ProgressDialogHelper
+import com.example.libraryapp.util.Utils
+import com.example.libraryapp.util.Utils.showNotification
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var navigationController: NavController
+    private val registerViewModel by viewModels<RegisterViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +43,14 @@ class RegisterFragment : Fragment() {
     }
 
     private fun observeData() {
-
+        registerViewModel.isRegister.observe(this, Observer {
+            if (it) {
+                navigationController.navigate(R.id.action_registerFragment_to_homeFragment)
+            } else {
+                context?.showNotification(getString(R.string.regis_failed))
+            }
+            ProgressDialogHelper.dismissProgressDialog()
+        })
     }
 
     private fun setListener() = with(binding){
@@ -44,7 +59,23 @@ class RegisterFragment : Fragment() {
         }
 
         buttonRegister.setOnClickListener {
-            navigationController.navigate(R.id.action_registerFragment_to_homeFragment)
+            val name = edtName.text.toString().trim()
+            val mail = edtMail.text.toString().trim()
+            val pass = edtPassword.text.toString().trim()
+
+            if (Utils.isEmailValid(mail)) {
+                if (Utils.isPasswordValid(pass)) {
+                    ProgressDialogHelper.showProgressDialog(
+                        requireContext(),
+                        getString(R.string.load_data)
+                    )
+                    registerViewModel.register(name, mail, pass)
+                } else {
+                    context?.showNotification(getString(R.string.error_pass))
+                }
+            } else {
+                context?.showNotification(getString(R.string.error_email))
+            }
         }
 
         moveToLoginFragment.setOnClickListener {

@@ -1,0 +1,77 @@
+package com.example.libraryapp.data.repository
+
+import android.app.Application
+import android.preference.PreferenceManager
+import androidx.core.net.toUri
+import com.example.libraryapp.data.model.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.google.gson.Gson
+import kotlinx.coroutines.tasks.await
+import javax.inject.Singleton
+
+@Singleton
+class Repository(private val application: Application) {
+
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance().reference
+
+    fun getCurrentUser(returnUserCurrent: (User?) -> Unit) {
+        val userId = firebaseAuth.currentUser?.uid
+        if (userId != null) {
+            database.child("users").child(userId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val currentUser = snapshot.getValue(User::class.java)
+                        if (currentUser != null) {
+                            returnUserCurrent(currentUser)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        returnUserCurrent(null)
+                    }
+                })
+        }
+    }
+
+    fun loginUser(email: String, password: String, returnStatusLoginUser: (Boolean) -> Unit) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            returnStatusLoginUser(it.isSuccessful)
+        }
+    }
+
+    suspend fun registerUser(
+        name: String, email: String, password: String, returnStatusRegisterUser: (Boolean) -> Unit
+    ) {
+        val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+        result.user?.updateProfile(
+            UserProfileChangeRequest.Builder().setDisplayName(name).build()
+        )?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val userId = result.user!!.uid
+                val userCurrent = User(
+                    id = result.user!!.uid,
+                    name = result.user!!.displayName,
+                    email = result.user!!.email
+                )
+                database.child("users").child(userId).setValue(userCurrent).addOnCompleteListener {addUser ->
+                    returnStatusRegisterUser(addUser.isSuccessful)
+                }
+            } else {
+                returnStatusRegisterUser(false)
+            }
+        }
+    }
+
+    fun logout() {
+        firebaseAuth.signOut()
+    }
+}
