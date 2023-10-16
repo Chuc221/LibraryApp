@@ -28,4 +28,13 @@
     <string name="search_book">Tìm kiếm sách ...</string>
     <string name="search_borrow">Tìm kiếm phiếu mượn ...</string>
     <string name="search_off_book">Không tìm thấy kết quả phù hợp</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="language_current">Tiếng Việt</string>
+    <string name="version">Phiên bản ứng dụng</string>
+    <string name="app_version">1.0.0</string>
+    <string name="trend">Thống kê</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
+    <string name="save">Lưu</string>
+    <string name="num_phone">SỐ ĐIỆN THOẠI</string>
+    <string name="birthday">NGÀY SINH</string>
 </resources>

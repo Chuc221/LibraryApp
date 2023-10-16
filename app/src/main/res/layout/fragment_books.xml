@@ -60,7 +60,7 @@
                     android:id="@+id/createMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_playlist_add"
+                    android:src="@drawable/ic_add_book"
                     android:tint="@color/startColor"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
