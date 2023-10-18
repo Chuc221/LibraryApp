@@ -22,6 +22,7 @@ class Repository(private val application: Application) {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
+    private val storageRef = Firebase.storage.reference
 
     fun getCurrentUser(returnUserCurrent: (User?) -> Unit) {
         val userId = firebaseAuth.currentUser?.uid
@@ -73,5 +74,39 @@ class Repository(private val application: Application) {
 
     fun logout() {
         firebaseAuth.signOut()
+    }
+
+    fun updateProfileCurrentUser(user: User, returnStatusUpdate: (Boolean) -> Unit) {
+        val uriImage = user.imageUri?.toUri()
+        val imageRef = storageRef.child("images/${uriImage?.lastPathSegment}")
+        if (uriImage != null) {
+            imageRef.putFile(uriImage).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                imageRef.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    user.imageUri = task.result.toString()
+                    database.child("users").child(user.id).setValue(user).addOnCompleteListener {
+                        returnStatusUpdate(it.isSuccessful)
+                    }
+                } else {
+                    database.child("users").child(user.id).setValue(user).addOnCompleteListener {
+                        returnStatusUpdate(it.isSuccessful)
+                    }
+                }
+            }.addOnFailureListener {
+                database.child("users").child(user.id).setValue(user).addOnCompleteListener {
+                    returnStatusUpdate(it.isSuccessful)
+                }
+            }
+        } else {
+            database.child("users").child(user.id).setValue(user).addOnCompleteListener {
+                returnStatusUpdate(it.isSuccessful)
+            }
+        }
     }
 }
