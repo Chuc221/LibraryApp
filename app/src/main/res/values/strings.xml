@@ -42,4 +42,17 @@
     <string name="name_blank">Vui lòng nhập họ tên!</string>
     <string name="phone_blank">Vui lòng nhập số điện thoại!</string>
     <string name="birthday_blank">Vui lòng nhập ngày tháng năm sinh!</string>
+    <string name="add_book">Quản lý đầu sách</string>
+    <string name="name_book">Tên sách: </string>
+    <string name="author">Tác giả: </string>
+    <string name="producer">Nhà xuất bản: </string>
+    <string name="year">Năm xuất bản: </string>
+    <string name="category">Chuyên ngành/Thể loại: </string>
+    <string name="quantity">Số lượng: </string>
+    <string name="describe">Mô tả: </string>
+    <string name="id_sv">MÃ SV: </string>
+    <string name="lop">Lớp: </string>
+    <string name="date_create">Ngày tạo: </string>
+    <string name="date_return">Ngày trả dự kiến: </string>
+
 </resources>

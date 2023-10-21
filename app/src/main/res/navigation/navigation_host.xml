@@ -52,10 +52,18 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addBookFragment"
+            app:destination="@id/addBookFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.libraryapp.ui.edit_profile.EditProfileFragment"
         android:label="EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile"/>
+    <fragment
+        android:id="@+id/addBookFragment"
+        android:name="com.example.libraryapp.ui.add_book.AddBookFragment"
+        android:label="AddBookFragment"
+        tools:layout="@layout/fragment_add_book"/>
 </navigation>
