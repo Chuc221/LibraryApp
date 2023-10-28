@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/add_book"
+                    android:text="@string/add_phieu"
                     android:textSize="18sp"
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
@@ -235,6 +235,41 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/layout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout6">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mã sách"
+                    android:textColor="#999999"
+                    android:textSize="16sp" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/editTextIDBook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:text="   Thêm sách"
+                    android:drawableStart="@drawable/ic_add"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_enable" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
@@ -243,7 +278,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout6" />
+                app:layout_constraintTop_toBottomOf="@+id/layout7" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -258,6 +293,7 @@
                 android:layout_margin="10dp"
                 android:paddingHorizontal="20dp"
                 android:text="   Thêm sách"
+                android:visibility="gone"
                 android:drawableStart="@drawable/ic_add"
                 android:textColor="@color/white"
                 android:background="@drawable/button_enable"

@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addBookFragment"
             app:destination="@id/addBookFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_phieuMuonFragment"
+            app:destination="@id/phieuMuonFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -66,4 +69,9 @@
         android:name="com.example.libraryapp.ui.add_book.AddBookFragment"
         android:label="AddBookFragment"
         tools:layout="@layout/fragment_add_book"/>
+    <fragment
+        android:id="@+id/phieuMuonFragment"
+        android:name="com.example.libraryapp.ui.borrow_book.PhieuMuonFragment"
+        android:label="PhieuMuonFragment"
+        tools:layout="@layout/fragment_phieu_muon"/>
 </navigation>

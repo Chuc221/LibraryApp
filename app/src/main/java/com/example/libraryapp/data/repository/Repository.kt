@@ -3,6 +3,7 @@ package com.example.libraryapp.data.repository
 import android.app.Application
 import android.preference.PreferenceManager
 import androidx.core.net.toUri
+import com.example.libraryapp.data.model.Book
 import com.example.libraryapp.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -105,6 +106,40 @@ class Repository(private val application: Application) {
             }
         } else {
             database.child("users").child(user.id).setValue(user).addOnCompleteListener {
+                returnStatusUpdate(it.isSuccessful)
+            }
+        }
+    }
+
+    fun updateBook(book: Book, returnStatusUpdate: (Boolean) -> Unit) {
+        val uriImage = book.bookImageUri?.toUri()
+        val imageRef = storageRef.child("imagesBook/${uriImage?.lastPathSegment}")
+        if (uriImage != null) {
+            imageRef.putFile(uriImage).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                imageRef.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    book.bookImageUri = task.result.toString()
+                    database.child("books").child(book.bookID).setValue(book).addOnCompleteListener {
+                        returnStatusUpdate(it.isSuccessful)
+                    }
+                } else {
+                    database.child("books").child(book.bookID).setValue(book).addOnCompleteListener {
+                        returnStatusUpdate(it.isSuccessful)
+                    }
+                }
+            }.addOnFailureListener {
+                database.child("books").child(book.bookID).setValue(book).addOnCompleteListener {
+                    returnStatusUpdate(it.isSuccessful)
+                }
+            }
+        } else {
+            database.child("books").child(book.bookID).setValue(book).addOnCompleteListener {
                 returnStatusUpdate(it.isSuccessful)
             }
         }
