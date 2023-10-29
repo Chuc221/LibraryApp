@@ -144,4 +144,22 @@ class Repository(private val application: Application) {
             }
         }
     }
+
+    fun getBook(returnBook: (MutableList<Book>) -> Unit) {
+        database.child("books").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val listBooks = mutableListOf<Book>()
+                for (dataSnapshot in snapshot.children) {
+                    val book = dataSnapshot.getValue(Book::class.java)
+                    if (book != null) {
+                        listBooks.add(book)
+                        returnBook(listBooks)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
 }

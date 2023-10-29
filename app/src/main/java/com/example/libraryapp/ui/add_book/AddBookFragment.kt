@@ -28,7 +28,7 @@ class AddBookFragment : Fragment() {
     private lateinit var navigationController: NavController
     private val addBookViewModel by viewModels<AddBookViewModel> ()
     private lateinit var book: Book
-    private lateinit var bookImageUri: String
+    private var bookImageUri = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
