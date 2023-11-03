@@ -4,6 +4,7 @@ import android.app.Application
 import android.preference.PreferenceManager
 import androidx.core.net.toUri
 import com.example.libraryapp.data.model.Book
+import com.example.libraryapp.data.model.Student
 import com.example.libraryapp.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -161,5 +162,38 @@ class Repository(private val application: Application) {
             override fun onCancelled(error: DatabaseError) {
             }
         })
+    }
+
+    fun addStudent(student: Student, returnStatusAddStudent: (Boolean) -> Unit) {
+        database.child("students").child(student.studentID).setValue(student).addOnCompleteListener {
+            returnStatusAddStudent(it.isSuccessful)
+        }
+    }
+
+    fun getStudent(sID: String, returnStudent: (Student?) -> Unit) {
+        database.child("students").child(sID)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val student = snapshot.getValue(Student::class.java)
+                    returnStudent(student)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    returnStudent(null)
+                }
+            })
+    }
+    fun getBookByID(bID: String, returnBook: (Book?) -> Unit) {
+        database.child("books").child(bID)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val book = snapshot.getValue(Book::class.java)
+                    returnBook(book)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    returnBook(null)
+                }
+            })
     }
 }

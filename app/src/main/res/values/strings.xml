@@ -56,5 +56,8 @@
     <string name="date_create">Ngày tạo: </string>
     <string name="date_return">Ngày trả dự kiến: </string>
     <string name="book_blank">Vui lòng nhập đủ thông tin sách!</string>
+    <string name="studentID_blank">Vui lòng nhập mã sinh viên!</string>
+    <string name="bookID_blank">Vui lòng nhập mã sách!</string>
+    <string name="bookID_error">Mã sách không đúng!</string>
 
 </resources>
