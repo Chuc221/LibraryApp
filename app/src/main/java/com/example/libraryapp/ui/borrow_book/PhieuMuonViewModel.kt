@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.libraryapp.data.model.Book
+import com.example.libraryapp.data.model.PhieuMuon
 import com.example.libraryapp.data.model.Student
 import com.example.libraryapp.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,17 @@ import javax.inject.Inject
 class PhieuMuonViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     private val _isAddStudent = MutableLiveData<Boolean>()
     val isAddStudent: LiveData<Boolean> = _isAddStudent
+
+    private val _isAddPhieuMuon = MutableLiveData<Boolean>()
+    val isAddPhieuMuon: LiveData<Boolean> = _isAddPhieuMuon
+
+    fun addPhieuMuon(phieuMuon: PhieuMuon) {
+        viewModelScope.launch {
+            repository.addPhieuMuon(phieuMuon) {
+                _isAddPhieuMuon.postValue(it)
+            }
+        }
+    }
 
     fun addStudent(student: Student) {
         viewModelScope.launch {

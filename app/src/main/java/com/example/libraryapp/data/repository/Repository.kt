@@ -4,6 +4,7 @@ import android.app.Application
 import android.preference.PreferenceManager
 import androidx.core.net.toUri
 import com.example.libraryapp.data.model.Book
+import com.example.libraryapp.data.model.PhieuMuon
 import com.example.libraryapp.data.model.Student
 import com.example.libraryapp.data.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -195,5 +196,11 @@ class Repository(private val application: Application) {
                     returnBook(null)
                 }
             })
+    }
+
+    fun addPhieuMuon(phieuMuon: PhieuMuon, returnStatusAddPhieuMuon: (Boolean) -> Unit) {
+        database.child("phieus").push().setValue(phieuMuon).addOnCompleteListener {
+            returnStatusAddPhieuMuon(it.isSuccessful)
+        }
     }
 }

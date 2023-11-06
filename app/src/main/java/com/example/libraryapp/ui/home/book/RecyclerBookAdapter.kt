@@ -10,7 +10,7 @@ import com.example.libraryapp.R
 import com.example.libraryapp.data.model.Book
 import com.example.libraryapp.databinding.ItemBookBinding
 
-class RecyclerBookAdapter :
+class RecyclerBookAdapter(private val onItemClickListener: OnItemClickListener) :
     ListAdapter<Book, RecyclerBookAdapter.ViewHolder>(BookDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +33,10 @@ class RecyclerBookAdapter :
             } else {
                 binding.bookImage.setImageResource(R.drawable.ic_book)
             }
+            itemView.setOnLongClickListener {
+                onItemClickListener.onItemLongClick(book)
+                true
+            }
             binding.executePendingBindings()
         }
     }
@@ -46,4 +50,10 @@ class RecyclerBookAdapter :
             return oldItem.bookID == newItem.bookID
         }
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClick(book: Book)
+
+    fun onItemLongClick(book: Book)
 }

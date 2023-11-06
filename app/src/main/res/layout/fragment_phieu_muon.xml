@@ -280,15 +280,28 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView6"
+            <LinearLayout
+                android:id="@+id/layout8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sách mượn: "
-                android:textSize="16sp"
+                android:paddingTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout7" />
+                app:layout_constraintTop_toBottomOf="@+id/layout7">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sách mượn: "
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/soSachMuon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerSachMuon"
@@ -296,7 +309,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/layout8" />
 
             <Button
                 android:id="@+id/button2"

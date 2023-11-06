@@ -14,11 +14,12 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.libraryapp.R
+import com.example.libraryapp.data.model.Book
 import com.example.libraryapp.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BooksFragment : Fragment() {
+class BooksFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentBooksBinding
     private lateinit var navigationController: NavController
@@ -56,9 +57,17 @@ class BooksFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        recyclerBookAdapter = RecyclerBookAdapter()
+        recyclerBookAdapter = RecyclerBookAdapter(this)
         binding.recyclerBook.adapter = recyclerBookAdapter
         binding.recyclerBook.layoutManager = GridLayoutManager(context, 1)
+
+    }
+
+    override fun onItemClick(book: Book) {
+
+    }
+
+    override fun onItemLongClick(book: Book) {
 
     }
 

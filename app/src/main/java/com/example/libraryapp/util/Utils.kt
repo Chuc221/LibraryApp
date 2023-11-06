@@ -18,7 +18,7 @@ object Utils {
         builder.setTitle(getText(R.string.notification))
         builder.setMessage(mess)
 
-        builder.setPositiveButton(getText(R.string.cancel),
+        builder.setPositiveButton(getText(R.string.ok),
             DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.cancel() })
         val dialog = builder.create()
         dialog.show()
