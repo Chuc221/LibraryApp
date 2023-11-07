@@ -127,7 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ho_ten"
+                    android:text="@string/hoten"
                     android:textColor="#999999"
                     android:textSize="16sp" />
 
@@ -153,7 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/birthday"
+                    android:text="@string/ngay_sinh"
                     android:textColor="#999999"
                     android:textSize="16sp" />
 
@@ -255,7 +255,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mã sách"
+                    android:text="@string/id_book"
                     android:textColor="#999999"
                     android:textSize="16sp" />
 
@@ -273,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="10dp"
-                    android:text="   Thêm sách"
+                    android:text="@string/them_sach"
                     android:drawableStart="@drawable/ic_add"
                     android:textColor="@color/white"
                     android:background="@drawable/button_enable" />
@@ -292,7 +292,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sách mượn: "
+                    android:text="@string/sach_muon"
                     android:textSize="16sp" />
 
                 <TextView
@@ -310,21 +310,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout8" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:paddingHorizontal="20dp"
-                android:text="   Thêm sách"
-                android:visibility="gone"
-                android:drawableStart="@drawable/ic_add"
-                android:textColor="@color/white"
-                android:background="@drawable/button_enable"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

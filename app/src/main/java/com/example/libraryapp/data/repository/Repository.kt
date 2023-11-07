@@ -203,4 +203,24 @@ class Repository(private val application: Application) {
             returnStatusAddPhieuMuon(it.isSuccessful)
         }
     }
+
+    fun getAllPhieu(returnPhieu: (MutableList<PhieuMuon>) -> Unit) {
+        database.child("phieus").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val listPhieus = mutableListOf<PhieuMuon>()
+                for (dataSnapshot in snapshot.children) {
+                    val id = dataSnapshot.key
+                    val phieuMuon = dataSnapshot.getValue(PhieuMuon::class.java)
+                    if (phieuMuon != null) {
+                        phieuMuon.idPhieu = id
+                        listPhieus.add(phieuMuon)
+                        returnPhieu(listPhieus)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
 }

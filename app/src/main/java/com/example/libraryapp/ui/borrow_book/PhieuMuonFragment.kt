@@ -85,30 +85,30 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
             val sName = editTextName.text.toString().trim()
             val sBirthday = editTextBirthday.text.toString().trim()
             val sClass = editTextLop.text.toString().trim()
-            val ngayTao = editTextDateCreate.text.toString().trim()
-            val ngayTra = editTextDateReturn.text.toString().trim()
+            val dateCreate = editTextDateCreate.text.toString().trim()
+            val dateReturn = editTextDateReturn.text.toString().trim()
 
             if(sID.isBlank() || sName.isBlank() || sBirthday.isBlank() || sClass.isBlank()){
-                context?.showNotification("Vui lòng nhập đủ thông tin sinh viên!")
+                context?.showNotification(getString(R.string.tt_sv))
             }
-            else if(ngayTra.isBlank()){
-                context?.showNotification("Chưa chọn ngày trả dự kiến")
+            else if(dateReturn.isBlank()){
+                context?.showNotification(getString(R.string.not_date_return))
             }
-            else if(!isDateValid(ngayTra) || !isDateValid(ngayTao)){
-                context?.showNotification("Ngày phải có định dạng dd/MM/yyyy")
+            else if(!isDateValid(dateReturn) || !isDateValid(dateCreate)){
+                context?.showNotification(getString(R.string.not_date_vald))
             }
-            else if (parseDateToTimeInMillis(ngayTra) == null || parseDateToTimeInMillis(ngayTao) == null){
-                context?.showNotification("Ngày không hợp lệ!")
+            else if (parseDateToTimeInMillis(dateReturn) == null || parseDateToTimeInMillis(dateCreate) == null){
+                context?.showNotification(getString(R.string.date_error))
             }
-            else if (parseDateToTimeInMillis(ngayTra)!! <= parseDateToTimeInMillis(ngayTao)!!){
-                context?.showNotification("Ngày trả dự kiến phải lớn hơn ngày tạo!")
+            else if (parseDateToTimeInMillis(dateReturn)!! <= parseDateToTimeInMillis(dateCreate)!!){
+                context?.showNotification(getString(R.string.date_return_error))
             }
             else if(listBook.size <= 0){
-                context?.showNotification("Chưa chọn sách mượn!")
+                context?.showNotification(getString(R.string.not_book))
             }
             else{
                 val student = Student(sID,sName,sBirthday,sClass)
-                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = parseDateToTimeInMillis(ngayTao), ngayTra = parseDateToTimeInMillis(ngayTra), trangThai = "Chưa trả")
+                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = parseDateToTimeInMillis(dateCreate), ngayTra = parseDateToTimeInMillis(dateReturn), trangThai = getString(R.string.dang_muon))
                 phieuMuonViewModel.addStudent(student)
                 phieuMuonViewModel.addPhieuMuon(phieuMuon)
                 ProgressDialogHelper.showProgressDialog(
@@ -144,7 +144,7 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
                         editTextName.text = null
                         editTextBirthday.text = null
                         editTextLop.text = null
-                        context?.showToast("Mã sinh viên không đúng!")
+                        context?.showToast(getString(R.string.studentID_error))
                     }
                 }
             }
@@ -159,7 +159,7 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
                 var isCon = false
                 listBook.forEach { book ->
                     if (book.bookID == bID){
-                        context?.showToast("Sách "+ book.bookName + " đã được thêm vào danh sách!")
+                        context?.showToast(getString(R.string.book) + " " + book.bookName + " " + getString(R.string.da_co_sach))
                         isCon = true
                     }
                 }
@@ -168,7 +168,7 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
                     phieuMuonViewModel.getBookByID(bID){ book ->
                         if (book != null) {
                             listBook.add(book)
-                            soSachMuon.text = listBook.size.toString() + " cuốn"
+                            soSachMuon.text = " " + listBook.size.toString() + " " + getString(R.string.cuon)
                             recyclerBookAdapter.submitList(listBook)
                             editTextIDBook.text = null
                         }
@@ -219,11 +219,11 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
         val builder = AlertDialog.Builder(context!!)
         builder.setIcon(R.drawable.ic_notifications)
         builder.setTitle(getText(R.string.notification))
-        builder.setMessage("Bạn có muốn xóa " + book.bookName + " khỏi phiếu mượn không?")
+        builder.setMessage(getString(R.string.xoa) + " " + book.bookName + " " + getString(R.string.xoa1))
 
-        builder.setPositiveButton("Đồng ý") { dialog, _ ->
+        builder.setPositiveButton(getString(R.string.dong_y)) { dialog, _ ->
             listBook.remove(book)
-            binding.soSachMuon.text = listBook.size.toString() + " cuốn"
+            binding.soSachMuon.text = " " + listBook.size.toString() + " " + getString(R.string.cuon)
             recyclerBookAdapter.notifyDataSetChanged()
             dialog.dismiss()
         }

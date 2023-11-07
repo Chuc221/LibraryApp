@@ -11,6 +11,8 @@ import androidx.navigation.Navigation
 import com.example.libraryapp.R
 import com.example.libraryapp.databinding.FragmentBooksBinding
 import com.example.libraryapp.databinding.FragmentBorrowBookBinding
+import com.example.libraryapp.ui.home.borrow.da_tra.DaTraFragment
+import com.example.libraryapp.ui.home.borrow.dang_muon.DangMuonFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,8 +34,19 @@ class BorrowBookFragment : Fragment() {
 
         navigationController = Navigation.findNavController(view)
 
+        tapLayout()
         observeData()
         setOnListener()
+    }
+
+    private fun tapLayout() {
+        binding.viewPager.adapter = PhieuMuonPagerAdapter(
+            listOf(
+                Pair(DangMuonFragment(), getString(R.string.dang_muon)),
+                Pair(DaTraFragment(), getString(R.string.da_tra))
+            ), childFragmentManager
+        )
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 
     private fun observeData() {
