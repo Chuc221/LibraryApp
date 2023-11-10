@@ -9,20 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.libraryapp.R
+import com.example.libraryapp.data.model.PhieuMuon
 import com.example.libraryapp.databinding.FragmentDangMuonBinding
 import com.example.libraryapp.ui.home.book.RecyclerBookAdapter
+import com.example.libraryapp.ui.home.borrow.OnItemPhieuClickListener
 import com.example.libraryapp.ui.home.borrow.PhieuMuonAdapter
 import com.example.libraryapp.ui.home.borrow.PhieuMuonViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DangMuonFragment : Fragment() {
+class DangMuonFragment : Fragment(), OnItemPhieuClickListener {
 
     private lateinit var binding: FragmentDangMuonBinding
     private lateinit var navigationController: NavController
-    private val bookViewModel by viewModels<PhieuMuonViewModel>()
+    private val phieuMuonViewModel by viewModels<PhieuMuonViewModel>()
     private lateinit var recyclerPhieuAdapter: PhieuMuonAdapter
 
     override fun onCreateView(
@@ -36,21 +39,35 @@ class DangMuonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navigationController = Navigation.findNavController(view)
         observeData()
         setAdapter()
     }
 
     private fun observeData() {
-        bookViewModel.allPhieu.observe(this, Observer {
-            recyclerPhieuAdapter.submitList(it)
+        phieuMuonViewModel.allPhieu.observe(this, Observer { listPhieu ->
+            val list = mutableListOf<PhieuMuon>()
+            listPhieu.forEach { phieuMuon ->
+                if (phieuMuon.trangThai.equals(getString(R.string.dang_muon))){
+                    list.add(phieuMuon)
+                }
+            }
+            list.sortBy { it.ngayMuon }
+            recyclerPhieuAdapter.submitList(list)
         })
     }
 
     private fun setAdapter() {
-        recyclerPhieuAdapter = PhieuMuonAdapter()
+        recyclerPhieuAdapter = PhieuMuonAdapter(this)
         binding.recyclerPhieu.adapter = recyclerPhieuAdapter
         binding.recyclerPhieu.layoutManager = GridLayoutManager(context, 1)
 
+    }
+
+    override fun onItemClick(phieuMuon: PhieuMuon) {
+        val bundle = Bundle()
+        bundle.putString("idPhieu", phieuMuon.idPhieu)
+        navigationController.navigate(R.id.action_homeFragment_to_chiTietPhieuMuonFragment, bundle)
     }
 
 }

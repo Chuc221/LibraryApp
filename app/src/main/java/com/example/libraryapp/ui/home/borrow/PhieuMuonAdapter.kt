@@ -10,7 +10,7 @@ import com.example.libraryapp.databinding.ItemPhieuBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PhieuMuonAdapter:
+class PhieuMuonAdapter(private val onItemPhieuClickListener: OnItemPhieuClickListener):
     ListAdapter<PhieuMuon, PhieuMuonAdapter.ViewHolder>(PhieuDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +27,7 @@ class PhieuMuonAdapter:
         fun bind(phieuMuon: PhieuMuon) {
             binding.phieu = phieuMuon
             binding.tvSoSach.text = phieuMuon.listBook?.size.toString()
-            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             if (phieuMuon.trangThai.equals("Đang mượn")){
                 binding.txtNgay.text = "Ngày mượn:"
                 val formattedDate = simpleDateFormat.format(phieuMuon.ngayMuon)
@@ -38,7 +38,9 @@ class PhieuMuonAdapter:
                 val formattedDate = simpleDateFormat.format(phieuMuon.ngayTra)
                 binding.txtNgayMuonTra.text = formattedDate
             }
-
+            itemView.setOnClickListener {
+                onItemPhieuClickListener.onItemClick(phieuMuon)
+            }
             binding.executePendingBindings()
         }
     }
@@ -52,4 +54,9 @@ class PhieuMuonAdapter:
             return oldItem.idPhieu == newItem.idPhieu
         }
     }
+}
+
+interface OnItemPhieuClickListener {
+    fun onItemClick(phieuMuon: PhieuMuon)
+
 }

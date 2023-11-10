@@ -223,4 +223,26 @@ class Repository(private val application: Application) {
             }
         })
     }
+
+    fun getPhieuById(pID: String,returnPhieu: (PhieuMuon) -> Unit) {
+        database.child("phieus").child(pID).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val id = snapshot.key
+                val phieuMuon = snapshot.getValue(PhieuMuon::class.java)
+                if (phieuMuon != null) {
+                    phieuMuon.idPhieu = id
+                    returnPhieu(phieuMuon)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    fun updatePhieuMuon(phieuMuon: PhieuMuon, returnStatusUpdatePhieuMuon: (Boolean) -> Unit) {
+        database.child("phieus").child(phieuMuon.idPhieu!!).setValue(phieuMuon).addOnCompleteListener { task ->
+            returnStatusUpdatePhieuMuon(task.isSuccessful)
+        }
+    }
 }

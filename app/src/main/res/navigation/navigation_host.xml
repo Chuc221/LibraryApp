@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_homeFragment_to_phieuMuonFragment"
             app:destination="@id/phieuMuonFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chiTietPhieuMuonFragment"
+            app:destination="@id/chiTietPhieuMuonFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -74,4 +77,9 @@
         android:name="com.example.libraryapp.ui.borrow_book.PhieuMuonFragment"
         android:label="PhieuMuonFragment"
         tools:layout="@layout/fragment_phieu_muon"/>
+    <fragment
+        android:id="@+id/chiTietPhieuMuonFragment"
+        android:name="com.example.libraryapp.ui.chi_tiet_phieu_muon.ChiTietPhieuMuonFragment"
+        android:label="ChiTietPhieuMuonFragment"
+        tools:layout="@layout/fragment_chi_tiet_phieu_muon"/>
 </navigation>

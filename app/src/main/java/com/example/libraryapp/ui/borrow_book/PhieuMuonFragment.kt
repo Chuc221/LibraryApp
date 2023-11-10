@@ -108,7 +108,7 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
             }
             else{
                 val student = Student(sID,sName,sBirthday,sClass)
-                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = parseDateToTimeInMillis(dateCreate), ngayTra = parseDateToTimeInMillis(dateReturn), trangThai = getString(R.string.dang_muon))
+                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = System.currentTimeMillis(), ngayTra = parseDateToTimeInMillis(dateReturn), trangThai = "Đang mượn")
                 phieuMuonViewModel.addStudent(student)
                 phieuMuonViewModel.addPhieuMuon(phieuMuon)
                 ProgressDialogHelper.showProgressDialog(

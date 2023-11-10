@@ -7,6 +7,6 @@ class PhieuMuon (
     val nameSV: String? = "",
     val listBook: MutableList<Book>? = null,
     val ngayMuon: Long? = 0,
-    val ngayTra: Long? = 0,
-    val trangThai: String? = ""
+    var ngayTra: Long? = 0,
+    var trangThai: String? = ""
 )
