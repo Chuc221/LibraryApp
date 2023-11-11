@@ -66,7 +66,7 @@
     <string name="sach_muon">Sách mượn: </string>
     <string name="dang_muon">Đang mượn</string>
     <string name="da_tra">Đã trả</string>
-    <string name="phieu_muon">Phiếu mượn: </string>
+    <string name="phieu_muon">Phiếu đang mượn: </string>
     <string name="studentID_error">Mã sinh viên không đúng!</string>
     <string name="da_co_sach"> đã được thêm vào danh sách!</string>
     <string name="cuon"> cuốn</string>

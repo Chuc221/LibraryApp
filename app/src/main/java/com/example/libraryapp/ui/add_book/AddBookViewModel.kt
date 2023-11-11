@@ -16,10 +16,21 @@ class AddBookViewModel @Inject constructor(private val repository: Repository) :
     private val _isUpdate = MutableLiveData<Boolean>()
     val isUpdate: LiveData<Boolean> = _isUpdate
 
+    private val _book = MutableLiveData<Book>()
+    val book: LiveData<Book> = _book
+
     fun updateBook(book: Book) {
         viewModelScope.launch {
             repository.updateBook(book) {
                 _isUpdate.postValue(it)
+            }
+        }
+    }
+
+    fun getBookByID(bID: String) {
+        viewModelScope.launch {
+            repository.getBookByID(bID){
+                _book.postValue(it)
             }
         }
     }

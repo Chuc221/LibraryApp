@@ -37,6 +37,9 @@ class RecyclerBookAdapter(private val onItemClickListener: OnItemClickListener) 
                 onItemClickListener.onItemLongClick(book)
                 true
             }
+            itemView.setOnClickListener {
+                onItemClickListener.onItemClick(book)
+            }
             binding.executePendingBindings()
         }
     }

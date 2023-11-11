@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.GridLayout
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,12 +27,15 @@ class BooksFragment : Fragment(), OnItemClickListener {
     private lateinit var navigationController: NavController
     private val bookViewModel by viewModels<BookViewModel> ()
     private lateinit var recyclerBookAdapter: RecyclerBookAdapter
+    private val listBook = mutableListOf<Book>()
+    private var listBookSearch = mutableListOf<Book>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_books, container, false)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         return binding.root
     }
 
@@ -45,8 +50,10 @@ class BooksFragment : Fragment(), OnItemClickListener {
     }
 
     private fun observeData() {
-        bookViewModel.allBook.observe(this, Observer {
-            recyclerBookAdapter.submitList(it)
+        bookViewModel.allBook.observe(this, Observer {books ->
+            listBook.clear()
+            listBook.addAll(books.sortedBy { it.bookID })
+            recyclerBookAdapter.notifyDataSetChanged()
         })
     }
 
@@ -54,17 +61,47 @@ class BooksFragment : Fragment(), OnItemClickListener {
         addBook.setOnClickListener {
             navigationController.navigate(R.id.action_homeFragment_to_addBookFragment)
         }
+
+        searchViewBook.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrBlank()) {
+                    listBookSearch = listBook.filter {
+                        it.bookName!!.lowercase().contains(newText.lowercase()) || it.bookID!!.lowercase().contains(newText.lowercase())
+                    } as MutableList<Book>
+                    if (listBookSearch.size > 0) {
+                        layoutSearchOff.visibility = View.GONE
+                        recyclerBookAdapter.submitList(listBookSearch)
+                    } else {
+                        layoutSearchOff.visibility = View.VISIBLE
+                    }
+                } else {
+                    layoutSearchOff.visibility = View.GONE
+                    recyclerBookAdapter.submitList(listBook)
+                }
+                return true
+            }
+
+        })
+
+        searchViewBook.setIconifiedByDefault(false)
+
     }
 
     private fun setAdapter() {
         recyclerBookAdapter = RecyclerBookAdapter(this)
         binding.recyclerBook.adapter = recyclerBookAdapter
         binding.recyclerBook.layoutManager = GridLayoutManager(context, 1)
-
+        recyclerBookAdapter.submitList(listBook)
     }
 
     override fun onItemClick(book: Book) {
-
+        val bundle = Bundle()
+        bundle.putString("idBook", book.bookID)
+        navigationController.navigate(R.id.action_homeFragment_to_addBookFragment, bundle)
     }
 
     override fun onItemLongClick(book: Book) {

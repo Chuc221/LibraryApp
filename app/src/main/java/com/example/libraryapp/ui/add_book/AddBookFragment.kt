@@ -70,6 +70,29 @@ class AddBookFragment : Fragment() {
             ProgressDialogHelper.dismissProgressDialog()
         })
 
+        addBookViewModel.book.observe(this, Observer {
+            if (it != null){
+                binding.bookS = it
+                if (it.bookImageUri.isNullOrBlank()){
+                    binding.imageBook.setImageResource(R.drawable.ic_book)}
+                else{
+                    Glide.with(this).load(it.bookImageUri).centerCrop().into(binding.imageBook)
+                }
+            }
+        })
+
+
+        val bundle = arguments
+        val idBook = bundle?.getString("idBook")
+        if (idBook != null){
+            binding.save.visibility = View.GONE
+            addBookViewModel.getBookByID(idBook)
+        }
+        else {
+            binding.save.visibility = View.VISIBLE
+            addBookViewModel.getBookByID("null")
+        }
+
     }
 
     private fun setOnListener() = with(binding){

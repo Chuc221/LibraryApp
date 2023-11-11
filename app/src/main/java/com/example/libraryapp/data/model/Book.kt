@@ -5,7 +5,7 @@ class Book (
     var bookName: String?=null,
     var bookAuth: String?=null,
     var bookNhaXB: String?=null,
-    var bookNamXB: Int?=0,
+    var bookNamXB: Int?=null,
     var bookType: String?=null,
     var bookMoTa: String?=null,
     var bookImageUri: String?=null
