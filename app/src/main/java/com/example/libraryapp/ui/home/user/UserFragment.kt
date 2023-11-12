@@ -1,10 +1,13 @@
 package com.example.libraryapp.ui.home.user
 
+import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,7 +16,9 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.libraryapp.R
 import com.example.libraryapp.databinding.FragmentUserBinding
+import com.example.libraryapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class UserFragment : Fragment() {
@@ -57,6 +62,52 @@ class UserFragment : Fragment() {
             userViewModel.logout()
             navigationController.navigate(R.id.action_homeFragment_to_loginFragment)
         }
+
+        imageButtonLanguage.setOnClickListener {
+            val popupMenu = PopupMenu(context, imageButtonLanguage)
+            popupMenu.menuInflater.inflate(R.menu.menu_lamguage, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.vietnamese -> {
+                        if (readLanguageCurrentFromCache().equals("enm")){
+                            setLocale("")
+                            saveLanguageCurrentToCache("")
+                        }
+                        true
+                    }
+                    R.id.english -> {
+                        if (readLanguageCurrentFromCache().isNullOrEmpty()){
+                            setLocale("enm")
+                            saveLanguageCurrentToCache("enm")
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
     }
 
+    private fun setLocale(lang: String) {
+        val mLocale = Locale(lang)
+        val resources = resources
+        val configuration = resources.configuration
+        configuration.locale = mLocale
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        startActivity(Intent(context, requireActivity().javaClass))
+    }
+
+    private fun saveLanguageCurrentToCache(language: String) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor = sharedPreferences.edit()
+        editor.putString(Constants.LANGUAGE_CACHE_KEY, language)
+        editor.apply()
+    }
+
+    private fun readLanguageCurrentFromCache(): String? {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        return sharedPreferences.getString(Constants.LANGUAGE_CACHE_KEY, "")
+    }
+    
 }

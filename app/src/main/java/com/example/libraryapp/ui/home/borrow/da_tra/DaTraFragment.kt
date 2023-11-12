@@ -18,6 +18,7 @@ import com.example.libraryapp.databinding.FragmentDangMuonBinding
 import com.example.libraryapp.ui.home.borrow.OnItemPhieuClickListener
 import com.example.libraryapp.ui.home.borrow.PhieuMuonAdapter
 import com.example.libraryapp.ui.home.borrow.PhieuMuonViewModel
+import com.example.libraryapp.util.Constants.STATUS_COMPLETE
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +49,7 @@ class DaTraFragment : Fragment(), OnItemPhieuClickListener {
         phieuMuonViewModel.allPhieu.observe(this, Observer { listPhieu ->
             val list = mutableListOf<PhieuMuon>()
             listPhieu.forEach { phieuMuon ->
-                if (phieuMuon.trangThai.equals(getString(R.string.da_tra))){
+                if (phieuMuon.trangThai.equals(STATUS_COMPLETE)){
                     list.add(phieuMuon)
                 }
             }

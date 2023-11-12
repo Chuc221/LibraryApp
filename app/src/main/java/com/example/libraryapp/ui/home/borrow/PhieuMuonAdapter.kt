@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.libraryapp.R
 import com.example.libraryapp.data.model.PhieuMuon
 import com.example.libraryapp.databinding.ItemPhieuBinding
+import com.example.libraryapp.util.Constants.STATUS_BORROW
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,13 +30,13 @@ class PhieuMuonAdapter(private val onItemPhieuClickListener: OnItemPhieuClickLis
             binding.phieu = phieuMuon
             binding.tvSoSach.text = phieuMuon.listBook?.size.toString()
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            if (phieuMuon.trangThai.equals("Đang mượn")){
-                binding.txtNgay.text = "Ngày mượn:"
+            if (phieuMuon.trangThai.equals(STATUS_BORROW)){
+                binding.txtNgay.text = itemView.context.getText(R.string.ngay_muon)
                 val formattedDate = simpleDateFormat.format(phieuMuon.ngayMuon)
                 binding.txtNgayMuonTra.text = formattedDate
             }
             else {
-                binding.txtNgay.text = "Ngày trả:"
+                binding.txtNgay.text = itemView.context.getText(R.string.ngay_tra)
                 val formattedDate = simpleDateFormat.format(phieuMuon.ngayTra)
                 binding.txtNgayMuonTra.text = formattedDate
             }

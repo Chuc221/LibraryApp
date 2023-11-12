@@ -85,5 +85,7 @@
     <string name="xn_tra_phieu">Xác nhận trả phiếu mượn?</string>
     <string name="trang_thai">Trạng thái:</string>
     <string name="ngay_tra">Ngày trả:</string>
+    <string name="vietnamese">Tiếng Việt</string>
+    <string name="english">Tiếng Anh</string>
 
 </resources>

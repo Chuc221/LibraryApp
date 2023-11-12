@@ -21,6 +21,8 @@ import com.example.libraryapp.ui.home.book.RecyclerBookAdapter
 import com.example.libraryapp.util.ProgressDialogHelper
 import com.example.libraryapp.util.Utils.showToast
 import androidx.lifecycle.Observer
+import com.example.libraryapp.util.Constants.STATUS_BORROW
+import com.example.libraryapp.util.Constants.STATUS_COMPLETE
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -66,20 +68,21 @@ class ChiTietPhieuMuonFragment : Fragment(), OnItemClickListener {
                     }
 
 
-                    if (phieuMuon.trangThai.equals(getString(R.string.dang_muon))){
+                    if (phieuMuon.trangThai.equals(STATUS_BORROW)){
                         binding.tra.visibility = View.VISIBLE
                         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         binding.editTextDateReturn.text = simpleDateFormat.format(phieu.ngayTra)
+                        binding.editTextTrangThai.text = getText(R.string.dang_muon)
                     } else {
                         binding.tvNgayTra.text = getText(R.string.ngay_tra)
                         binding.tra.visibility = View.GONE
                         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                         binding.editTextDateReturn.text = simpleDateFormat.format(phieu.ngayTra)
+                        binding.editTextTrangThai.text = getText(R.string.da_tra)
                     }
 
                     val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                     binding.editTextDateCreate.text = simpleDateFormat.format(phieu.ngayMuon)
-                    binding.editTextTrangThai.text = phieu.trangThai
                     binding.soSachMuon.text = phieu.listBook?.size.toString() + " "+ getString(R.string.cuon)
                     recyclerBookAdapter.submitList(phieu.listBook)
                 }
@@ -104,7 +107,7 @@ class ChiTietPhieuMuonFragment : Fragment(), OnItemClickListener {
 
         tra.setOnClickListener {
             phieuMuon.ngayTra = System.currentTimeMillis()
-            phieuMuon.trangThai = "Đã trả"
+            phieuMuon.trangThai = STATUS_COMPLETE
 
             val builder = AlertDialog.Builder(context!!)
             builder.setIcon(R.drawable.ic_notifications)

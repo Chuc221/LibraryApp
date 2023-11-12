@@ -24,6 +24,7 @@ import com.example.libraryapp.data.model.Student
 import com.example.libraryapp.databinding.FragmentPhieuMuonBinding
 import com.example.libraryapp.ui.home.book.OnItemClickListener
 import com.example.libraryapp.ui.home.book.RecyclerBookAdapter
+import com.example.libraryapp.util.Constants.STATUS_BORROW
 import com.example.libraryapp.util.ProgressDialogHelper
 import com.example.libraryapp.util.Utils.showNotification
 import com.example.libraryapp.util.Utils.showToast
@@ -108,7 +109,7 @@ class PhieuMuonFragment : Fragment(), OnItemClickListener {
             }
             else{
                 val student = Student(sID,sName,sBirthday,sClass)
-                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = System.currentTimeMillis(), ngayTra = parseDateToTimeInMillis(dateReturn), trangThai = "Đang mượn")
+                val phieuMuon = PhieuMuon(idNV = idNV, idSV = sID, nameSV = sName, listBook = listBook, ngayMuon = System.currentTimeMillis(), ngayTra = parseDateToTimeInMillis(dateReturn), trangThai = STATUS_BORROW)
                 phieuMuonViewModel.addStudent(student)
                 phieuMuonViewModel.addPhieuMuon(phieuMuon)
                 ProgressDialogHelper.showProgressDialog(

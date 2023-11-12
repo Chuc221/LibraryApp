@@ -18,6 +18,8 @@ import com.example.libraryapp.databinding.FragmentBooksBinding
 import com.example.libraryapp.databinding.FragmentBorrowBookBinding
 import com.example.libraryapp.ui.home.borrow.da_tra.DaTraFragment
 import com.example.libraryapp.ui.home.borrow.dang_muon.DangMuonFragment
+import com.example.libraryapp.util.Constants
+import com.example.libraryapp.util.Constants.STATUS_BORROW
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,7 +74,7 @@ class BorrowBookFragment : Fragment(), OnItemPhieuClickListener {
         phieuMuonViewModel.allPhieu.observe(this, Observer { phieus ->
             listPhieu.clear()
             phieus.forEach { phieuMuon ->
-                if (phieuMuon.trangThai.equals(getString(R.string.dang_muon))){
+                if (phieuMuon.trangThai.equals(STATUS_BORROW)){
                     listPhieu.add(phieuMuon)
                 }
             }
